@@ -1,22 +1,22 @@
 'use strict';
 
-const STATUS = {
+const STATUSES = {
 	TO_DO: 'To Do',
 	IN_PROGRESS: 'In Progress',
 	DONE: 'Done',
 };
-const PRIORITY = {
+const PRIORITIES = {
 	LOW: 'Low',
 	HIGH: 'High',
 };
 
-const DEFAULT_STATUS = STATUS.TO_DO;
-const DEFAULT_PRIORITY = PRIORITY.HIGH;
+const DEFAULT_STATUS = STATUSES.TO_DO;
+const DEFAULT_PRIORITY = PRIORITIES.HIGH;
 
-const list = [
+let list = [
 	{
 		name: 'create a post',
-		status: 'In progress',
+		status: 'In Progress',
 		priority: 'Low',
 	},
 	{
@@ -26,22 +26,26 @@ const list = [
 	},
 	{
 		name: 'listen to music',
-		status: 'In progress',
+		status: 'In Progress',
+		priority: 'Low',
+	},
+	{
+		name: 'buy a new chair',
+		status: 'To Do',
 		priority: 'Low',
 	},
 ];
 
+// done
 function changeStatus(task, status) {
 	list.find(item => {
 		if (item.name === task) item.status = status;
 	});
 }
 
+// done
 function addTask(task) {
-	let isTask = list.find(item => item.name === task);
-	if (isTask) {
-		return console.log('Such task already exists');
-	} else {
+	if (!list.find(item => item.name === task)) {
 		list.push({
 			name: task,
 			status: DEFAULT_STATUS,
@@ -50,34 +54,17 @@ function addTask(task) {
 	}
 }
 
+// done
 function deleteTask(task) {
-	let isTask = list.find(item => item.name === task);
-	if (!isTask) {
-		console.error('Delete task error, the task does not exist');
-		return;
-	}
-	let taskId = list.indexOf(list.find(item => item.name === task));
-	list.splice(taskId, 1);
+	list = list.filter(item => item.name !== task);
 }
 
 function showList() {
 	const tasks = {
-		[STATUS.TO_DO]: '',
-		[STATUS.IN_PROGRESS]: '',
-		[STATUS.DONE]: '',
+		[STATUSES.TO_DO]: '',
+		[STATUSES.IN_PROGRESS]: '',
+		[STATUSES.DONE]: '',
 	};
-
-	for (let key in list) {
-		tasks[list[key]] += `  "${key}",\n`;
-	}
-
-	console.log(
-		`${STATUS.TO_DO}:
-${tasks[STATUS.TO_DO] || ' - '}
-${STATUS.IN_PROGRESS}:
-${tasks[STATUS.IN_PROGRESS] || ' - '}
-${STATUS.DONE}:
-${tasks[STATUS.DONE] || ' - '}`
-	);
 }
-console.log(list);
+
+showList();

@@ -36,10 +36,58 @@ let list = [
 	},
 ];
 
+function showList() {
+	for (let task of list) {
+		console.log(`${task.name}: status = [${task.status}] priority = [${task.priority}]`);
+	}
+}
+
+function showBy(sorter) {
+	if (sorter === 'status') {
+		let toDo = '',
+			inProgress = '',
+			done = '';
+
+		for (let task of list) {
+			if (task.status === STATUSES.TO_DO) {
+				toDo += `\n "${task.name}",`;
+			} else if (task.status === STATUSES.IN_PROGRESS) {
+				inProgress += `\n "${task.name}",`;
+			} else {
+				done += `\n "${task.name}",`;
+			}
+		}
+
+		console.log(`${STATUSES.TO_DO}: ${toDo || '\n -'}`);
+		console.log(`${STATUSES.IN_PROGRESS}: ${inProgress || '\n -'}`);
+		console.log(`${STATUSES.DONE}: ${done || '\n -'}`);
+	} else if (sorter === 'priority') {
+		let high = '',
+			low = '';
+
+		for (let task of list) {
+			if (task.priority === PRIORITIES.HIGH) {
+				high += `\n "${task.name}",`;
+			} else {
+				low += `\n "${task.name}",`;
+			}
+		}
+
+		console.log(`${PRIORITIES.HIGH}: ${high || '\n -'}`);
+		console.log(`${PRIORITIES.LOW}: ${low || '\n -'}`);
+	}
+}
+
 // done
 function changeStatus(task, status) {
 	list.find(item => {
 		if (item.name === task) item.status = status;
+	});
+}
+// done
+function changePriority(task, priority) {
+	list.find(item => {
+		if (item.name === task) item.priority = priority;
 	});
 }
 
@@ -59,12 +107,5 @@ function deleteTask(task) {
 	list = list.filter(item => item.name !== task);
 }
 
-function showList() {
-	const tasks = {
-		[STATUSES.TO_DO]: '',
-		[STATUSES.IN_PROGRESS]: '',
-		[STATUSES.DONE]: '',
-	};
-}
-
-showList();
+showBy('priority');
+// showList()
